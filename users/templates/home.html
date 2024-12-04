@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% block content %}
 {% if user.is_authenticated %}
 <h1>Welcome {{ user.username }}</h1>
@@ -16,7 +17,7 @@
         {% endfor %}
     </div>
     {% endif %}
-    <form action="" method="post">
+    <form action="{% url 'home' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label for="username">username:</label>
@@ -29,8 +30,12 @@
         <button type="submit">Login</button>
         <button type="button"><a href="{% url 'signup' %}" style="text-decoration: none;">Sign Up</a></button>
     </form>
+    <a href="{% provider_login_url 'google' %}">Login with Google</a>
+    
+   
 </div>
 {% endif %}
+{% endblock %}
 <style>
     a {
         color: inherit;
@@ -40,4 +45,3 @@
         color: inherit;
     }
 </style>
-{% endblock %}

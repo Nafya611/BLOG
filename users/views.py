@@ -17,7 +17,7 @@ def home(request):
             return redirect('home')
         else:
             messages.error(request, "Invalid credentials")
-            return render(request, "login.html")
+            return redirect( "home")
     else:
         records = signupForm()
         return render(request, "home.html", {'records': records})
@@ -27,9 +27,12 @@ def signup(request):
         form = signupForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Account created successfully! Please log in.")
+            
+            logout_user(request)
             return redirect("home")  # Redirect to login after signup
+            messages.success(request, "Account created successfully! Please log in.")
         else:
+            messages.error(request, "An error occurred during signup. Please try again")
             return redirect('signup')  
     else:
         form = signupForm()
